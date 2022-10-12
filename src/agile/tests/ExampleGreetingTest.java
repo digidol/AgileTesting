@@ -20,6 +20,6 @@ public class ExampleGreetingTest {
     @Test
     public void shouldCreateGreeting_forOneName() {
         Greeting greeting = new Greeting("Hello", "friend!");
-        assertEquals("Hello Ada", greeting.greet(new String[] { "Ada" }));
+        assertEquals("Hello, Ada", greeting.greet(new String[] { "Ada" }));
     }
 }
