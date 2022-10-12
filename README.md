@@ -1,92 +1,70 @@
 # AgileTesting
 
+This project contains code for the first Agile practical on CS31310. On Blackboard,
+you will find additional notes about this practical. This document outlines the 
+requirements that the code has implemented.
 
+Read this document and the document on Bb before working with the code.
 
-## Getting started
+## About the code 
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+The code at the start of this practical contains the following items, which are all in the packages 
+`agile` or `agile.tests`, in the `src` directory. 
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+* **Greeting.java** - The class that has the code to be tested. It implements a set of requirements about how to provide a greeting. The requirements are discussed below.
+* **CharacterStyle.java** - An enumeration of values for Upper and Lower case. No changes are needed to this code.
+* **Main.java** - A simple main method. This shows the basic setup to run the greeting class.  
+* **GreetingTest.java** - An example test class, which has one example test in it. Use this as an inspiration to start your own test class during this practical.
 
-## Add your files
+## About this practical 
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+The practical is about designing test cases for the code in the `Greeting` class. You will write those test cases as tests using JUnit. You will write those tests in the class `GreetingTest`.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.dcs.aber.ac.uk/cs31310/agiletesting.git
-git branch -M main
-git push -uf origin main
-```
+The `Greeting` class has two main methods that you need to test:
 
-## Integrate with your tools
+* **greet** - This takes an array of Strings and produces a greeting, according to some rules. The rules are described below.
+* **checkCharacters** - This checks if all of the characters in a string are upper or lower case. 
 
-- [ ] [Set up project integrations](https://gitlab.dcs.aber.ac.uk/cs31310/agiletesting/-/settings/integrations)
+There is also a constructor, which takes two parameters. The first is the text that starts all greetings created by the method. The second is a default name to use if no names are provided to the `greet` method. 
 
-## Collaborate with your team
+## Requirements for the code
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+The `greet` method produces a greeting that meets the following requirements. Where an array is mentioned, it refers to the array of names passed to the method as a parameter.
 
-## Test and Deploy
+* If the provided value is `null`, instead of an array of Strings, the greeting should use the default name. An example result is `Hello, friend!`. 
+* If there is one element in the array, the greeting will be `Hello, name`, where name is the value in the array.
+    * If the name is all in upper case characters or all in lower case characters, the start of the message is changed to match. For example, if the name is `ADA`, then the greeting will be `HELLO, ADA`.
+* If there are several elements in the array, the greeting will be like `Hello, name1, name2 and name3`. There will be a comma between name and the word `and` used instead of a comma for the final name.
+    * If any of the names in the array are all in upper case, then they will be moved to the end for a separate greeting in upper case. For example, if the names are `Ada`, `ALAN` and `Grace`, the example message would be `Hello, Ada and Grace. AND HELLO, ALAN.  
+    * Expanding the last requirement, if there are multiple names in upper case, the upper case names will all appear in the separate greeting at the end, separated by commas. No `AND` is used before the final name of this separate greeting. For example, if the input names are `Ada`, `ALAN` and `GRACE`, then the greeting would be `Hello, Ada. AND HELLO, ALAN, GRACE.`.
 
-Use the built-in continuous integration in GitLab.
+The `checkCharacters` method takes two parameters. It checks each character in the string. If all characters match the specified CharacterStyle (Upper or Lower case), then `true` is returned. If at least one character does not match the CharacterStyle, then `false` is returned. 
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+**Note:** the `checkCharacters` method could be private to the class because it is really there to support the code in the `greet` method. For the purposes of this exercise, it has been made public so that you can write tests for it.
 
-***
+## About the tests
 
-# Editing this README
+The `ExampleGreetingTest` class contains an example JUnit test. 
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Remember that each test method needs to have the @Test annotation before it. 
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+For this exercise, the assertions `assertEquals()`, `assertTrue()` and `assertFalse()` will be sufficient.
 
-## Name
-Choose a self-explaining name for your project.
+## About this code
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+This code is not intended to use advanced concepts. It uses conditions (with if statements) and 
+iteration (for loops). There are some other features of Java that could simplify parts of the code. 
+However, this isn't an exercise in using more recent Java. The code is designed so that it should be 
+readable by everyone on the module, even if they have not programmed with Java recently.
 
 ## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+
+Created by Neil Taylor. The idea for the exercise is based on an [exercise for learning Test-Driven Development](https://github.com/testdouble/contributing-tests/wiki/Greeting-Kata), by Jake Van Alstyne. The idea has been adjusted for this practical and it does not use TDD. We are using the idea of a Greeting generator as the basis for code that we can test.
 
 ## License
-For open source projects, say how it is licensed.
+
+The MIT License applies to this project.
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+This has been written for students taking the module in 2022-23.
